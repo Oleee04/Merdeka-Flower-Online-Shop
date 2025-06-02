@@ -378,4 +378,9 @@ class OrderController extends Controller
 
         return view('backend.v_pesanan.cetakproses', compact('orders'));
     }
+    public function invoiceBackend($id)
+    {
+        $order = Order::with(['orderItems.produk', 'customer.user'])->findOrFail($id);
+        return view('backend.v_pesanan.invoice', compact('order'));
+    }
 }

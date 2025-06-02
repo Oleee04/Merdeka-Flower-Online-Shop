@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Order;    
+use App\Models\Produk;    
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\ImageHelper;
 
@@ -168,4 +170,61 @@ class UserController extends Controller
             'cetak' => $user
         ]);
     }
+
+    public function cetakProduk(Request $request)
+{
+    $request->validate([
+        'start_date' => 'required|date',
+        'end_date'   => 'required|date|after_or_equal:start_date',
+    ]);
+
+    $produk = Produk::with('kategori')
+        ->whereBetween('created_at', [$request->start_date, $request->end_date])
+        ->orderBy('created_at', 'asc')
+        ->get();
+
+    return view('backend.v_produk.cetak', [
+        'cetak'        => $produk,
+        'judul'        => 'Data Produk Masuk',
+        'tanggalAwal'  => \Carbon\Carbon::parse($request->start_date)->toDateString(),
+        'tanggalAkhir' => \Carbon\Carbon::parse($request->end_date)->toDateString(),
+    ]);
+}
+    public function formPenjualan()
+{
+    return view('backend.v_penjualan.form', [
+        'judul' => 'Form Cetak Laporan Penjualan',
+    ]);
+}
+
+    public function cetakPenjualan(Request $request)
+{
+    $request->validate([
+        'start_date' => 'required|date',
+        'end_date'   => 'required|date|after_or_equal:start_date',
+    ]);
+
+    $penjualan = Order::with('customer')
+        ->whereBetween('created_at', [$request->start_date, $request->end_date])
+        ->where('status', 'selesai')
+        ->orderBy('created_at', 'asc')
+        ->get();
+
+    // Tambahan untuk tampilan dan data di view
+    $judul = 'Laporan Penjualan';
+    $tanggalAwal = \Carbon\Carbon::parse($request->start_date)->translatedFormat('d F Y');
+    $tanggalAkhir = \Carbon\Carbon::parse($request->end_date)->translatedFormat('d F Y');
+
+    return view('backend.v_penjualan.cetak', [
+        'cetak'        => $penjualan, // alias agar bisa tetap pakai $cetak
+        'penjualan'    => $penjualan,
+        'start_date'   => $request->start_date,
+        'end_date'     => $request->end_date,
+        'judul'        => 'Laporan Penjualan',
+        'tanggalAwal'  => \Carbon\Carbon::parse($request->start_date)->translatedFormat('d F Y'),
+        'tanggalAkhir' => \Carbon\Carbon::parse($request->end_date)->translatedFormat('d F Y'),
+    ]);
+}
+
+
 }

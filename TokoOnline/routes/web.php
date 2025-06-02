@@ -35,11 +35,18 @@ Route::post('backend/logout', [LoginController::class, 'logoutBackend'])->name('
 // Route untuk User 
 Route::resource('backend/user', UserController::class, ['as' => 'backend'])->middleware('auth'); 
 // Route untuk laporan user 
-Route::get('backend/laporan/formuser', [UserController::class, 'formUser'])->name('backend.laporan.formuser')->middleware('auth'); 
-Route::post('backend/laporan/cetakuser', [UserController::class, 'cetakUser'])->name('backend.laporan.cetakuser')->middleware('auth'); 
+    // Laporan User
+    Route::get('backend/laporan/formuser', [UserController::class, 'formUser'])->name('backend.laporan.formuser');
+    Route::post('backend/laporan/cetakuser', [UserController::class, 'cetakUser'])->name('backend.laporan.cetakuser');
+
+    // Laporan Penjualan
+     Route::get('backend/laporan/formpenjualan', [UserController::class, 'formPenjualan'])->name('backend.laporan.formpenjualan');
+    Route::post('backend/laporan/formpenjualan', [UserController::class, 'cetakPenjualan'])->name('backend.laporan.cetakpenjualan');
  
 // Route untuk Kategori 
 Route::resource('backend/kategori', KategoriController::class, ['as' => 'backend'])->middleware('auth'); 
+Route::get('/pesanan/create', [UserController::class, 'create'])->name('backend.pesanan.create');
+Route::post('/pesanan/store', [UserController::class, 'store'])->name('backend.pesanan.store');
 
 // Route untuk Pesanan Backend
 Route::get('backend/pesanan', [OrderController::class, 'index'])->name('backend.pesanan.index')->middleware('auth');

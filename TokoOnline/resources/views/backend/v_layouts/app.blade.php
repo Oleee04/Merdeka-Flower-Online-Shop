@@ -187,7 +187,7 @@
                                     <i class="mdi mdi-chevron-right"></i><span class="hide-menu"> User </span></a>
                             </li> 
                             <li class="sidebar-item"><a href="{{ route('backend.laporan.formproduk') }}" class="sidebar-link"><i class="mdi mdi-chevron-right"></i><span class="hide-menu"> Produk </span></a></li> 
- 
+                            <li class="sidebar-item"><a href="{{ route('backend.laporan.formpenjualan') }}" class="sidebar-link"><i class="mdi mdi-chevron-right"></i><span class="hide-menu"> Penjualan </span></a></li> 
                             </ul> 
                         </li> 
  
