@@ -1,32 +1,28 @@
-🌺 Merdeka Flower – E-Commerce Tanaman Hias Berbasis Laravel
-Merdeka Flower adalah platform e-commerce modern untuk penjualan tanaman hias, dibangun menggunakan Laravel sebagai backend framework yang handal dan scalable.
-Aplikasi ini menawarkan fitur lengkap untuk mendukung aktivitas belanja online yang user-friendly dan profesional.
+# 🌺 MERDEKA FLOWER – WEBSITE E-COMMERCE TANAMAN HIAS BERBASIS LARAVEL
 
-🔑 Fitur Unggulan:
-🛒 Keranjang Belanja Dinamis – Tambah, ubah, dan kelola item secara real-time
+MERDEKA FLOWER ADALAH PLATFORM E-COMMERCE MODERN UNTUK PENJUALAN TANAMAN HIAS, DIBANGUN DENGAN FRAMEWORK LARAVEL YANG KUAT DAN SCALABLE. WEBSITE INI DILENGKAPI BERBAGAI FITUR PENTING UNTUK MEMBERIKAN PENGALAMAN BELANJA ONLINE YANG NYAMAN DAN AMAN.
 
-🗂️ Kategori Produk – Menyortir produk berdasarkan jenis tanaman
+## 🔑 FITUR UNGGULAN
+- 🛒 KERANJANG BELANJA DINAMIS – TAMBAH, UBAH, DAN KELOLA ITEM SECARA REAL-TIME
+- 🗂️ KATEGORI PRODUK – MENYORTIR PRODUK BERDASARKAN JENIS TANAMAN
+- 💳 INTEGRASI MIDTRANS PAYMENT GATEWAY – TRANSAKSI CEPAT, AMAN, DAN OTOMATIS
+- 📦 MANAJEMEN PESANAN – MELACAK STATUS PESANAN DARI CHECKOUT HINGGA PENGIRIMAN
+- 🛠️ ADMIN PANEL *(OPSIONAL)* – KELOLA STOK, PRODUK, DAN LAPORAN PENJUALAN
 
-💳 Integrasi Midtrans Payment Gateway – Transaksi cepat, aman, dan otomatis
+## ⚙️ TEKNOLOGI YANG DIGUNAKAN
+- 🔧 BACKEND: LARAVEL 10+
+- 💾 DATABASE: MYSQL
+- 💳 PAYMENT GATEWAY: MIDTRANS SNAP API
+- 🌐 FRONTEND: BLADE TEMPLATE + BOOTSTRAP
 
-📦 Manajemen Pesanan – Melacak status pesanan dari checkout hingga pengiriman
+---
 
-🛠️ Admin Panel (opsional) – Kelola stok, produk, dan laporan penjualan
+## ⚠️ PERHATIAN!
 
-⚙️ Teknologi:
-🔧 Backend: Laravel 10+
+PRODUK/SOURCE CODE INI **TIDAK UNTUK DIPERJUALBELIKAN** — HANYA UNTUK **TUJUAN PEMBELAJARAN**!
 
-💾 Database: MySQL
+🙏 JIKA KAMU MENEMUKAN PIHAK YANG MEMPERJUALBELIKAN KARYA INI SECARA TIDAK SAH,  
+**HARAP SEGERA HUBUNGI SAYA UNTUK TINDAKAN LEBIH LANJUT.**
 
-💳 Payment Gateway: Midtrans Snap API
-
-🌐 Frontend: Blade Template + Bootstrap
-
-⚠️ PERHATIAN!
-Produk/Source Code ini TIDAK untuk diperjualbelikan — hanya untuk tujuan pembelajaran!
-
-🙏 Jika kamu menemukan pihak yang memperjualbelikan karya ini secara tidak sah,
-harap segera hubungi saya untuk tindakan lebih lanjut.
-
-💡 Terima kasih atas pengertian dan dukungan kamu dalam menjaga karya ini tetap bebas dan edukatif.
+💡 TERIMA KASIH ATAS PENGERTIAN DAN DUKUNGAN KAMU DALAM MENJAGA KARYA INI TETAP **BEBAS DAN EDUKATIF**.
 
