@@ -383,4 +383,26 @@ class OrderController extends Controller
         $order = Order::with(['orderItems.produk', 'customer.user'])->findOrFail($id);
         return view('backend.v_pesanan.invoice', compact('order'));
     }
+
+     public function showForm()
+    {
+        return view('contact');
+    }
+
+    public function sendMessage(Request $request)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'name'    => 'required|string|max:100',
+            'email'   => 'required|email',
+            'subject' => 'nullable|string|max:150',
+            'message' => 'required|string|max:2000',
+        ]);
+
+        // Simpan ke log (atau kirim email/simpan DB jika diperlukan)
+        Log::info('Pesan Kontak Masuk:', $validated);
+
+        // Redirect kembali dengan flash message
+        return redirect()->route('contact.form')->with('success', 'Pesan berhasil dikirim!');
+    }
 }
