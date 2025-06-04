@@ -1,137 +1,179 @@
-@extends('layouts.app') {{-- Opsional: Sesuaikan dengan layout milikmu --}}
-@section('title', 'Cek Ongkir')
+@extends('layouts.app')
+@section('content') 
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Checkout - Alamat Pengiriman</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Ringkasan Pesanan -->
+                    <div class="mb-4">
+                        <h5>Ringkasan Pesanan</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Produk</th>
+                                        <th>Harga</th>
+                                        <th>Qty</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($order->orderItems as $item)
+                                    <tr>
+                                        <td>{{ $item->produk->nama_produk }}</td>
+                                        <td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
+                                        <td>{{ $item->quantity }}</td>
+                                        <td>Rp {{ number_format($item->harga * $item->quantity, 0, ',', '.') }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="3">Subtotal Produk</th>
+                                        <th>Rp {{ number_format($order->total_harga, 0, ',', '.') }}</th>
+                                    </tr>
+                                    <tr id="ongkir-row" style="display: none;">
+                                        <th colspan="3">Biaya Ongkir</th>
+                                        <th id="biaya-ongkir">Rp 0</th>
+                                    </tr>
+                                    <tr id="total-row" style="display: none;">
+                                        <th colspan="3">Total Bayar</th>
+                                        <th id="total-bayar">Rp {{ number_format($order->total_harga, 0, ',', '.') }}</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
 
-@section('content')
-    <div class="container">
-        <h2>Cek Ongkos Kirim</h2>
-        <form id="ongkirForm">
-            @csrf {{-- Jika diperlukan di server-side --}}
-            
-            <label for="province">Provinsi:</label>
-            <select name="province" id="province" required>
-                <option value="">Pilih Provinsi</option>
-            </select>
+                    <!-- Form Alamat Pengiriman -->
+                    <form action="{{ route('order.save-shipping-address') }}" method="POST" id="checkout-form">
+                        @csrf
+                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+                        
+                        <h5>Alamat Pengiriman</h5>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label for="alamat_lengkap" class="form-label">Alamat Lengkap</label>
+                                <textarea name="alamat_lengkap" id="alamat_lengkap" class="form-control" rows="3" required 
+                                    placeholder="Masukkan alamat lengkap Anda">{{ $order->alamat ?? '' }}</textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="kode_pos" class="form-label">Kode Pos</label>
+                                <input type="text" name="kode_pos" id="kode_pos" class="form-control" required 
+                                    value="{{ $order->pos ?? '' }}" placeholder="12345">
+                            </div>
+                        </div>
 
-            <label for="city">Kota:</label>
-            <select name="city" id="city" required>
-                <option value="">Pilih Kota</option>
-            </select>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="kota" class="form-label">Kota Tujuan</label>
+                                <select name="kota" id="kota" class="form-select" required>
+                                    <option value="">Pilih Kota</option>
+                                    <option value="Jakarta" {{ ($order->kota ?? '') == 'Jakarta' ? 'selected' : '' }}>Jakarta - Rp 15.000</option>
+                                    <option value="Bogor" {{ ($order->kota ?? '') == 'Bogor' ? 'selected' : '' }}>Bogor - Rp 20.000</option>
+                                    <option value="Depok" {{ ($order->kota ?? '') == 'Depok' ? 'selected' : '' }}>Depok - Rp 18.000</option>
+                                    <option value="Tangerang" {{ ($order->kota ?? '') == 'Tangerang' ? 'selected' : '' }}>Tangerang - Rp 22.000</option>
+                                    <option value="Bekasi" {{ ($order->kota ?? '') == 'Bekasi' ? 'selected' : '' }}>Bekasi - Rp 20.000</option>
+                                    <option value="Bandung" {{ ($order->kota ?? '') == 'Bandung' ? 'selected' : '' }}>Bandung - Rp 25.000</option>
+                                    <option value="Surabaya" {{ ($order->kota ?? '') == 'Surabaya' ? 'selected' : '' }}>Surabaya - Rp 30.000</option>
+                                    <option value="Yogyakarta" {{ ($order->kota ?? '') == 'Yogyakarta' ? 'selected' : '' }}>Yogyakarta - Rp 28.000</option>
+                                    <option value="Semarang" {{ ($order->kota ?? '') == 'Semarang' ? 'selected' : '' }}>Semarang - Rp 25.000</option>
+                                    <option value="Medan" {{ ($order->kota ?? '') == 'Medan' ? 'selected' : '' }}>Medan - Rp 35.000</option>
+                                    <option value="Palembang" {{ ($order->kota ?? '') == 'Palembang' ? 'selected' : '' }}>Palembang - Rp 32.000</option>
+                                    <option value="Makassar" {{ ($order->kota ?? '') == 'Makassar' ? 'selected' : '' }}>Makassar - Rp 40.000</option>
+                                    <option value="Denpasar" {{ ($order->kota ?? '') == 'Denpasar' ? 'selected' : '' }}>Denpasar - Rp 35.000</option>
+                                    <option value="Balikpapan" {{ ($order->kota ?? '') == 'Balikpapan' ? 'selected' : '' }}>Balikpapan - Rp 45.000</option>
+                                    <option value="Banjarmasin" {{ ($order->kota ?? '') == 'Banjarmasin' ? 'selected' : '' }}>Banjarmasin - Rp 38.000</option>
+                                    <option value="Pontianak" {{ ($order->kota ?? '') == 'Pontianak' ? 'selected' : '' }}>Pontianak - Rp 42.000</option>
+                                    <option value="Manado" {{ ($order->kota ?? '') == 'Manado' ? 'selected' : '' }}>Manado - Rp 50.000</option>
+                                    <option value="Jayapura" {{ ($order->kota ?? '') == 'Jayapura' ? 'selected' : '' }}>Jayapura - Rp 60.000</option>
+                                    <option value="Ambon" {{ ($order->kota ?? '') == 'Ambon' ? 'selected' : '' }}>Ambon - Rp 55.000</option>
+                                    <option value="Kupang" {{ ($order->kota ?? '') == 'Kupang' ? 'selected' : '' }}>Kupang - Rp 48.000</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="no_hp" class="form-label">No. HP</label>
+                                <input type="text" name="no_hp" id="no_hp" class="form-control" required 
+                                    value="{{ $order->hp ?? '' }}" placeholder="08xxxxxxxxxx">
+                            </div>
+                        </div>
 
-            <label for="weight">Berat (gram):</label>
-            <input type="number" name="weight" id="weight" placeholder="Berat dalam gram" required>
+                        <div class="mb-3">
+                            <label for="catatan" class="form-label">Catatan (Opsional)</label>
+                            <textarea name="catatan" id="catatan" class="form-control" rows="2" 
+                                placeholder="Catatan tambahan untuk pengiriman">{{ $order->catatan ?? '' }}</textarea>
+                        </div>
 
-            <label for="courier">Kurir:</label>
-            <select name="courier" id="courier" required>
-                <option value="">Pilih Kurir</option>
-                <option value="jne">JNE</option>
-                <option value="tiki">TIKI</option>
-                <option value="pos">POS Indonesia</option>
-            </select>
-
-            <button type="submit">Cek Ongkir</button>
-        </form>
-
-        <div id="result" style="margin-top: 20px;"></div>
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ route('order.cart') }}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Kembali ke Keranjang
+                            </a>
+                            <button type="submit" class="btn btn-primary" id="submit-btn" disabled>
+                                <i class="fas fa-credit-card"></i> Lanjut ke Pembayaran
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const kotaSelect = document.getElementById('kota');
+    const submitBtn = document.getElementById('submit-btn');
+    const ongkirRow = document.getElementById('ongkir-row');
+    const totalRow = document.getElementById('total-row');
+    const biayaOngkirEl = document.getElementById('biaya-ongkir');
+    const totalBayarEl = document.getElementById('total-bayar');
+    const orderId = parseInt(document.getElementById('order-id').value);
+const subtotalProduk = parseInt(document.getElementById('subtotal-produk').value);
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Load provinsi
-            fetch('/provinces')
-                .then(res => res.json())
-                .then(data => {
-                    if (data.rajaongkir.status.code === 200) {
-                        const provinces = data.rajaongkir.results;
-                        const provinceSelect = document.getElementById('province');
-                        provinces.forEach(prov => {
-                            const option = document.createElement('option');
-                            option.value = prov.province_id;
-                            option.textContent = prov.province;
-                            provinceSelect.appendChild(option);
-                        });
-                    } else {
-                        alert('Gagal mengambil data provinsi: ' + data.rajaongkir.status.description);
-                    }
-                })
-                .catch(err => console.error('Error ambil provinsi:', err));
 
-            // Load kota berdasarkan provinsi
-            document.getElementById('province').addEventListener('change', function () {
-                const provinceId = this.value;
-                const citySelect = document.getElementById('city');
-                citySelect.innerHTML = '<option value="">Pilih Kota</option>';
+    const ongkirTarif = {
+        'Jakarta': 15000, 'Bogor': 20000, 'Depok': 18000, 'Tangerang': 22000,
+        'Bekasi': 20000, 'Bandung': 25000, 'Surabaya': 30000, 'Yogyakarta': 28000,
+        'Semarang': 25000, 'Medan': 35000, 'Palembang': 32000, 'Makassar': 40000,
+        'Denpasar': 35000, 'Balikpapan': 45000, 'Banjarmasin': 38000, 'Pontianak': 42000,
+        'Manado': 50000, 'Jayapura': 60000, 'Ambon': 55000, 'Kupang': 48000
+    };
 
-                if (!provinceId) return;
+    function formatRupiah(angka) {
+        return 'Rp ' + angka.toLocaleString('id-ID');
+    }
 
-                fetch(`/cities?province_id=${provinceId}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.rajaongkir.status.code === 200) {
-                            const cities = data.rajaongkir.results;
-                            cities.forEach(city => {
-                                const option = document.createElement('option');
-                                option.value = city.city_id;
-                                option.textContent = city.city_name;
-                                citySelect.appendChild(option);
-                            });
-                        } else {
-                            alert('Gagal mengambil data kota: ' + data.rajaongkir.status.description);
-                        }
-                    })
-                    .catch(err => console.error('Error ambil kota:', err));
-            });
+    function updateOngkir() {
+        const selectedKota = kotaSelect.value;
 
-            // Cek ongkir
-            document.getElementById('ongkirForm').addEventListener('submit', function (event) {
-                event.preventDefault();
+        if (selectedKota) {
+            const biayaOngkir = ongkirTarif[selectedKota] || 25000;
+            const totalBayar = subtotalProduk + biayaOngkir;
 
-                const origin = 501; // ganti sesuai kota asalmu (ID kota)
-                const destination = document.getElementById('city').value;
-                const weight = document.getElementById('weight').value;
-                const courier = document.getElementById('courier').value;
+            biayaOngkirEl.textContent = formatRupiah(biayaOngkir);
+            totalBayarEl.textContent = formatRupiah(totalBayar);
 
-                if (!destination || !weight || !courier) {
-                    alert('Harap lengkapi semua kolom!');
-                    return;
-                }
+            ongkirRow.style.display = 'table-row';
+            totalRow.style.display = 'table-row';
+            submitBtn.disabled = false;
+        } else {
+            ongkirRow.style.display = 'none';
+            totalRow.style.display = 'none';
+            submitBtn.disabled = true;
+        }
+    }
 
-                fetch('/cost', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        origin: origin,
-                        destination: destination,
-                        weight: weight,
-                        courier: courier
-                    })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    const resultDiv = document.getElementById('result');
-                    resultDiv.innerHTML = '';
+    kotaSelect.addEventListener('change', updateOngkir);
 
-                    if (data.rajaongkir.status.code === 200) {
-                        const costs = data.rajaongkir.results[0].costs;
-                        if (costs.length === 0) {
-                            resultDiv.textContent = 'Tidak ada layanan tersedia.';
-                        } else {
-                            costs.forEach(service => {
-                                const div = document.createElement('div');
-                                div.textContent = `${service.service}: Rp ${service.cost[0].value.toLocaleString()} (${service.cost[0].etd} hari)`;
-                                resultDiv.appendChild(div);
-                            });
-                        }
-                    } else {
-                        resultDiv.textContent = 'Gagal mendapatkan ongkos kirim: ' + data.rajaongkir.status.description;
-                    }
-                })
-                .catch(err => console.error('Error ambil ongkir:', err));
-            });
-        });
-    </script>
+    if (kotaSelect.value) {
+        updateOngkir();
+    }
+});
+</script>
+
 @endsection

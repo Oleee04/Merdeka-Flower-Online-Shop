@@ -10,13 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('order', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id(); 
             $table->unsignedBigInteger('customer_id'); 
             $table->unsignedBigInteger('user_id')->nullable(); 
             $table->string('noresi')->nullable(); 
             $table->string('kurir')->nullable(); 
-            $table->integer('biaya_ongkir')->default(0);
+            $table->integer('biaya_ongkir')->default(0); // hanya satu kali
             $table->string('alamat_tujuan')->nullable();
             $table->string('kode_kota')->nullable();
             $table->string('layanan_ongkir')->nullable(); 
@@ -25,16 +25,18 @@ return new class extends Migration {
             $table->integer('total_berat')->nullable(); 
             $table->double('total_harga'); 
             $table->text('alamat')->nullable(); 
-            $table->string('hp')->nullable(); // dipindah langsung setelah alamat
+            $table->string('hp')->nullable(); 
             $table->string('pos')->nullable(); 
-            $table->string('status')->default('pending'); // status order
-            $table->string('payment_type')->nullable();   // jenis pembayaran (midtrans)
-            $table->string('transaction_id')->nullable(); // id transaksi midtrans
+            $table->string('kota')->nullable(); 
+            $table->text('catatan')->nullable();
+            $table->string('status')->default('pending'); 
+            $table->string('payment_type')->nullable();   
+            $table->string('transaction_id')->nullable(); 
             $table->timestamps(); 
 
             // Foreign keys
-            $table->foreign('customer_id')->references('id')->on('customer')->onDelete('cascade'); 
-            $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade'); 
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade'); 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); 
         });
     }
 
@@ -43,6 +45,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('order');
+        Schema::dropIfExists('orders');
     }
 };

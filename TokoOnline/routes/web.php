@@ -85,9 +85,9 @@ Route::get('/lokasi', function () {
 Route::get('/cara-pesan', function () {
     return view('cara-pesan');
 })->name('cara.pesan');
-Route::get('/hubungi-kami', [OrderController::class, 'showForm'])->name('contact.form');
-Route::post('/hubungi-kami', [OrderController::class, 'sendMessage'])->name('contact');
-
+Route::get('/hubungi-kami', function () {
+    return view('contact');
+})->name('contact');
 
 //Produk
 Route::get('/produk/detail/{id}', [ProdukController::class, 'detail'])->name('produk.detail');
