@@ -405,4 +405,10 @@ class OrderController extends Controller
         // Redirect kembali dengan flash message
         return redirect()->route('contact.form')->with('success', 'Pesan berhasil dikirim!');
     }
+    // Add this method after invoiceBackend()
+public function invoiceFrontend($id)
+{
+    $order = Order::with(['orderItems.produk', 'customer.user'])->findOrFail($id);
+    return view('v_order.invoice', compact('order'));
+}
 }

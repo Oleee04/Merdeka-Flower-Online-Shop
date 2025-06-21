@@ -93,9 +93,9 @@
 
                 <form action="{{ route('order.checkout') }}" method="post">
                     @csrf
-                    <button type="submit" class="btn btn-danger btn-block" id="pay-button">PAY NOW</button>
+                    <button type="submit" class="btn btn-danger btn-block" id="pay-button">CONFIRM PAYMENT</button>
                 </form>
-            </div>
+            </div>  
         </div>
         @else
         <p>Your shopping cart is empty.</p>
